@@ -6,6 +6,7 @@ const emailInput = document.querySelector('#email');
 const subjectInput = document.querySelector('#asunto');
 const messageInput = document.querySelector('#mensaje');
 
+/** function for despatch events*/
 eventListeners();
 function eventListeners() {
 	document.addEventListener('DOMContentLoaded', runApp);
@@ -24,18 +25,35 @@ function runApp (e) {
 }
 
 function validateForm (e) {
-	if (e.target.value.length > 0) {
-		console.log('Si tengo algo');
-	} else {
-		// emailInput.style.borderBottomColor = 'red';
-		e.target.classList.add('border', 'border-red-500');
-		seeError();
-	}
+	switch (e.target.type) {
+		case 'email':
+			if (e.target.value.length === 0) {
+				e.target.classList.add('border', 'border-red-500');
+				seeError('This field is required');
+				break;
+			} else if (e.target.value.indexOf('@') < 0) {
+				e.target.classList.add('border', 'border-red-500');
+				seeError('this email is not valid');
+				break;
+			} 
+		case 'text':
+			if (e.target.value.length === 0) {
+				e.target.classList.add('border', 'border-red-500');
+				seeError('this field cannot be empty');
+			}
+			break;
+		case 'textarea':
+			if (e.target.value.length === 0) {
+				e.target.classList.add('border', 'border-red-500');
+				seeError('this field cannot be empty');
+			}
+			break;
+	};
 }
 
-function seeError() {
+function seeError(msn) {
 	const messageError = document.createElement('p');
-	messageError.textContent = 'All fields are required';
+	messageError.textContent = msn;
 	messageError.classList.add(
 		'border', 'border-red-500', 
 		'background-red-100', 'text-red-500', 
