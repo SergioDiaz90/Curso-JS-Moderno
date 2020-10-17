@@ -1,5 +1,6 @@
 // variables
 const sendButton = document.querySelector('#enviar');
+const sendMail = document.querySelector('#enviar-mail');
 // inputs text
 const emailInput = document.querySelector('#email');
 const subjectInput = document.querySelector('#asunto');
@@ -28,5 +29,21 @@ function validateForm (e) {
 	} else {
 		// emailInput.style.borderBottomColor = 'red';
 		e.target.classList.add('border', 'border-red-500');
+		seeError();
+	}
+}
+
+function seeError() {
+	const messageError = document.createElement('p');
+	messageError.textContent = 'All fields are required';
+	messageError.classList.add(
+		'border', 'border-red-500', 
+		'background-red-100', 'text-red-500', 
+		'p-3', 'mt-5', 'text-center', 'error');
+
+	const error = document.querySelectorAll('.error');
+	if (error.length === 0){
+		// sendMail.appendChild(messageError);
+		sendMail.insertBefore(messageError, document.querySelector('.mb-10'));
 	}
 }
