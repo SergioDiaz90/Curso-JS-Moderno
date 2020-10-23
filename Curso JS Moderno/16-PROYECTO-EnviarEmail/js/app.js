@@ -1,6 +1,7 @@
 // variables
 const sendButton = document.querySelector('#enviar');
 const sendMail = document.querySelector('#enviar-mail');
+const resetButton = document.querySelector('#resetBtn');
 // inputs text
 const emailInput = document.querySelector('#email');
 const subjectInput = document.querySelector('#asunto');
@@ -16,13 +17,16 @@ function eventListeners() {
 	emailInput.addEventListener('blur', validateForm);
 	subjectInput.addEventListener('blur', validateForm);
 	messageInput.addEventListener('blur', validateForm);
+	// send menssage
+	sendMail.addEventListener('submit', sendMessage);
+	//reset form
+	resetButton.addEventListener('click', formReset);
 }
-
-
 // functions
-function runApp (e) {
+function runApp () {
 	// deshabilidar boton
 	sendButton.disabled = true;
+	sendButton.classList.add('cursor-not-allowed', 'opacity-50');
 }
 
 function validateForm (e) {
@@ -57,6 +61,9 @@ function validateForm (e) {
 			}
 			break;
 	};
+	
+	fieldsValue ();
+
 }
 
 function seeError(msn) {
@@ -85,4 +92,40 @@ function removeError (msn) {
 		msn.classList.remove('border', 'border-red-500');
 		msn.classList.add('border', 'border-green-500');
 	}
+}
+
+// Function for validate any field empty -> hoisting :P
+function fieldsValue () {
+	if (regex.test(emailInput.value) && sendMail.value !== '' && messageInput.value !== '') {
+		sendButton.disabled = false;
+		sendButton.classList.remove('cursor-not-allowed', 'opacity-50');
+	} else {
+		console.log('Faltan campos');
+	}
+}
+
+function sendMessage (e) {
+	e.preventDefault();
+	const spinner = document.querySelector('#spinner');
+	spinner.style.display = 'flex';
+
+	//timer
+	setTimeout(() => {
+		spinner.style.display = 'none';
+		const textCorrect = document.createElement('p');
+		textCorrect.textContent = 'El mensaje se envió correctamente';
+		textCorrect.classList.add('text-center', 'my-10', 'p-3', 'bg-green-500', 'text-white', 'font-bold');
+		sendMail.insertBefore(textCorrect, spinner);
+
+		// delete menssage
+		setTimeout(() => {
+			textCorrect.remove();
+			formReset();
+		}, 3000);
+	}, 3000);
+}
+
+function formReset() {
+	sendMail.reset();
+	runApp();
 }
