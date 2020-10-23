@@ -61,9 +61,7 @@ function validateForm (e) {
 			}
 			break;
 	};
-	
 	fieldsValue ();
-
 }
 
 function seeError(msn) {
@@ -99,8 +97,6 @@ function fieldsValue () {
 	if (regex.test(emailInput.value) && sendMail.value !== '' && messageInput.value !== '') {
 		sendButton.disabled = false;
 		sendButton.classList.remove('cursor-not-allowed', 'opacity-50');
-	} else {
-		console.log('Faltan campos');
 	}
 }
 
